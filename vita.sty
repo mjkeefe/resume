@@ -1,0 +1,157 @@
+%% Save file as: VITA.STY               Source: FILESERV@SHSU.BITNET
+%% Author: Marc Roussel <mroussel@alchemy.chem.utoronto.ca>
+%% Posted to comp.text.tex on Fri, 7 Feb 1992 17:59:10 GMT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  Originally by kcb@hss.caltech.edu 9-90.
+%%  Modifications by Marc R. Roussel (mroussel@alchemy.chem.utoronto.ca)
+%%   11-91.
+%%      Vita style option along the lines of A Handbook for Scholars.
+%%      Use with article style, e.g.: \documentstyle[vita,11pt]{article}
+%%      SAMPLE  USAGE:
+%%
+%% \documentstyle[vita]{article}
+%% \newcategory{Cookbooks and other nonacademic publications}
+%% \newdatedcategory{Events of my life}
+%%
+%% \begin{document}
+%% \name{Woodrow Wilson}
+%% \businessaddress{The White House\\Washington D.C.}
+%% \homeaddress{Also The White House\\Washington D.C.}
+%%
+%% \begin{vita}
+%% \begin{Degrees} \item B.S. etc.  \item Ph.D. ... \end{Degrees}
+%%     ...
+%% \begin{Publications} \item My First One
+%%   \item My Last One
+%% \end{Publications}
+%%     ...
+%% \begin{Experience}
+%% 1900--1901 & first job \\
+%%   ...
+%% 1990-1994 & last job
+%% \end{Experience}
+%%      ...
+%% \begin{References}
+%% My Advisor \\ Big 10 U \and My Mother \\ Home
+%% \end{References}
+%%
+%% \end{vita}
+%% \end{document}
+%%%%%%%%%%%%%%%%%
+%%
+%% Predefined categories include (from a Handbook for Scholars, in order):
+%%      Degrees, Additional education,
+%%      Memberships, Personal information, References, Publications
+%% and (not from a Handbook for Scholars):
+%%      Books, Articles, Reviews, Invited seminars, Professional activities,
+%%      Work in progress
+%%
+%% Predefined datedcategories include (from a Handbook for Scholars, in order):
+%%      Experience, Honours, Grants,
+%%
+%% Entries in each category are preceded by \item EXCEPT  for
+%% references. References are inputted in a format similar to the
+%% \author command. In particular, multiple references are separated
+%% by the \and command.  A datedcategory is a two-column tabular environment.
+%% The date is therefore separated from the entry itself by an ampersand
+%% and each entry is terminated by \\.
+%%
+%% The \newcategory command allows you to create new categories. It
+%% takes a single argument, namely the heading for the category.
+%% Similarly, \newdatedcategory creates datedcategories, as described above.
+%%
+%% Note the use of uppercase letters in the arguments of \begin and
+%% \end for categories.  Also note the \begin{vita} and \end{vita}
+%% commands which produce the heading, headers, date, etc.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Change section numbering style.
+\renewcommand{\thesection}{\Alph{section}}
+%%
+%% Define new categories and datedcategories:
+\newcommand{\newcategory}[1]{\newenvironment{#1}
+ {\sectionheading{#1}\begin{description}}{\end{description}\par}}
+\newcommand{\newdatedcategory}[1]{\newenvironment{#1}
+ {\sectionheading{#1}\medskip\newline\begin{tabular}{ll}}{\end{tabular}\newline}}
+\newcommand{\sectionheading}[1]{\medskip\pagebreak[3]\par
+ {\small\bf #1}\nopagebreak}
+%%
+%%      Category headings defined already: (in order of Handbook for Scholars)
+
+\newcategory{Additional education}
+%\newdatedcategory{Experience}
+\newdatedcategory{Honours}
+\newdatedcategory{Grants}
+\newcategory{Memberships}
+\newcategory{Personal information}
+\newcategory{Publications}
+%
+%  Other predefined categories not from Handbook for Scholars:
+\newcategory{Work in progress}
+\newcategory{Books}
+\newcategory{Articles}
+\newcategory{Reviews}
+\newcategory{Invited seminars}
+%\newcategory{Professional activities}
+%%
+%%
+%%      New commands
+\def\@name{}
+\def\@homeaddress{}
+\def\@businessaddress{}
+%
+\newcommand{\name}[1]{\renewcommand{\@name}{#1}}
+\newcommand{\businessaddress}[1]{\renewcommand{\@businessaddress}{#1}}
+\newcommand{\homeaddress}[1]{\renewcommand{\@homeaddress}{#1}}
+%
+%       this formats the above information:
+\newenvironment{vita}{\thispagestyle{empty}
+\ifx\@name\@empty\@warning{Missing name command}\fi
+\markright{\protect\small\rm\@name}
+\vspace*{-\headsep}\vspace*{-\headheight}
+\begin{center}
+{\Large\bf \@name}
+\end{center}
+\medskip
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}ll@{}}
+\ifx\@homeaddress\@empty\@warning{Missing homeaddress}\else
+\begin{tabular}[t]{@{}l@{}}
+{\small\bf Home Address}\\
+\@homeaddress
+\end{tabular}
+\fi
+&
+\ifx\@businessaddress\@empty\@warning{Missing businessaddress}\else
+\begin{tabular}[t]{@{}l@{}}
+{\small\bf University Address}\\
+\@businessaddress
+\end{tabular}
+\fi
+\end{tabular*}
+\bigskip}{\par\nopagebreak\vfill\hfill \today}
+%
+%
+\newenvironment{References}{\sectionheading{References}\begin{description}
+ \item[]
+ \begin{tabular}[t]{l}}{\end{tabular}\end{description}\par}
+\renewcommand{\and}{\end{tabular}\item[]\begin{tabular}[t]{l}}
+%
+%
+\renewcommand{\today}{\ifcase\month\or
+ January\or February\or March\or April\or May\or June\or
+ July\or August\or September\or October\or November\or December\fi,
+ \space\number\year}
+%
+%
+%%      Formatting parameters
+%\raggedright\sloppy
+\pagestyle{myheadings}
+%
+\parindent 0pt
+\let\@listi\@listii
+\let\@listii\@listiii
+\@listi
+%
+\nofiles
+%%
